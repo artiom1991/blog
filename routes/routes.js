@@ -11,16 +11,13 @@ dotenv.config()
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const createPath = (page) => path.resolve(__dirname, '../views', `${page}.ejs`)
 const router = new Router()
+
 router.use(cookieParser())
 
 router.get('/', (req, res) => {
-    console.log(req.cookies)
     const decode = jwt.decode(req.cookies.token, { complete: true })
-    console.log(decode)
     if (decode !== null && decode.payload.permission === 'true') {
-        console.log(decode)
         res.redirect('/user/:id')
-        // res.render(createPath('auth'), { title: "Autorization", header: "Autorization page" })
     } else {
         res.render(createPath('index'), { title: "Main Page", header: "Hello my dear user" })
     }
@@ -32,9 +29,12 @@ router.get('/exit', (req, res) => {
 })
 
 router.get('/user/:id', (req, res) => {
-    console.log(req.cookies.user)
-    res.render(createPath('user'), { title: "Main Page", header: req.cookies.user })
-    console.log(req.cookies)
+    const decode = jwt.decode(req.cookies.token, { complete: true })
+    if (decode !== null && decode.payload.permission === 'true') {
+        res.render(createPath('user'), { title: "Main Page", header: req.cookies.user })
+    } else {
+        res.redirect('/')
+    }
 })
 
 router.get('/auth', (req, res) => {
@@ -47,23 +47,15 @@ router.get('/auth', (req, res) => {
     }
 })
 
-router.post('/', (req, res) => {
-
-    res.send(req.body)
-
-})
-
 router.get('/reg', (req, res) => {
     const decode = jwt.decode(req.cookies.token, { complete: true })
     if (decode !== null && decode.payload.permission === 'true') {
-        console.log(decode)
         res.redirect('/user/:id')
     } else {
         res.render(createPath('reg'), { title: "Registration", header: "Registration page" })
     }
 
 })
-
 
 router.post('/auth', async (req, res) => {
     const { username, password } = req.body
@@ -78,42 +70,24 @@ router.post('/auth', async (req, res) => {
             role: user.role,
             permission: `${isPasswordCorrect}`
         }, process.env.SECRET)
+
         res.cookie(`user`, `${user.username}`)
         res.cookie(`token`, `${token}`)
 
         if (isPasswordCorrect === true) {
-            console.log("SUCCESS")
-            res.redirect('/')
-
+            res.redirect('/user/:id')
         } else {
             res.redirect('/auth')
-            console.log("PROVAL")
         }
-
-
-        const decode = jwt.decode(token, { complete: true })
-
-        // console.log('verifiPass ', isPasswordCorrect)
-        // console.log('user ', user)
-        // console.log('token ', token)
-        // console.log('decoded ', decode)
-        // console.log('cookie ', req.cookies)
-
     } else {
-        console.log('Kakaiato hueta')
-        res.send('boroda')
+        res.redirect('/auth')
     }
-
-
-
-
 })
 
 router.post('/reg', async (req, res) => {
-    res.send(req.body)
     const { username, password, email, phonenumber } = req.body
     const passwordHashed = await bcrypt.hash(password, 8)
-    User.create({
+    let createUser = await User.create({
         username,
         password: passwordHashed,
         email,
@@ -122,8 +96,11 @@ router.post('/reg', async (req, res) => {
     }).catch((error) => {
         console.log(error.parent.detail)
     })
-    console.log('New user: ', username, passwordHashed, email, phonenumber)
-
+    if (createUser) {
+        res.redirect('/user/:id')
+    } else {
+        res.redirect('/reg')
+    }
 })
 
 export default router
