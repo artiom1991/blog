@@ -14,26 +14,37 @@ const router = new Router()
 router.use(cookieParser())
 
 router.get('/', (req, res) => {
-    // res.cookie('user', 'huiuzer')
-    // res.clearCookie('[object Object]')
-    res.render(createPath('index'), { title: "Main Page", header: "Hello my dear user" })
     console.log(req.cookies)
+    const decode = jwt.decode(req.cookies.token, { complete: true })
+    console.log(decode)
+    if (decode !== null && decode.payload.permission === 'true') {
+        console.log(decode)
+        res.redirect('/user/:id')
+        // res.render(createPath('auth'), { title: "Autorization", header: "Autorization page" })
+    } else {
+        res.render(createPath('index'), { title: "Main Page", header: "Hello my dear user" })
+    }
+})
+
+router.get('/exit', (req, res) => {
+    res.clearCookie('token')
+    res.redirect('/')
 })
 
 router.get('/user/:id', (req, res) => {
-    res.render(createPath('index'), { title: "Main Page", header: "Hello my dear user" })
+    console.log(req.cookies.user)
+    res.render(createPath('user'), { title: "Main Page", header: req.cookies.user })
+    console.log(req.cookies)
 })
 
 router.get('/auth', (req, res) => {
     const decode = jwt.decode(req.cookies.token, { complete: true })
-    if (decode.payload.permission === 'true') {
+    if (decode !== null && decode.payload.permission === 'true') {
         console.log(decode)
-        res.redirect('/')
-        // res.render(createPath('auth'), { title: "Autorization", header: "Autorization page" })
+        res.redirect('/user/:id')
     } else {
         res.render(createPath('auth'), { title: "Autorization", header: "Autorization page" })
     }
-
 })
 
 router.post('/', (req, res) => {
@@ -43,8 +54,14 @@ router.post('/', (req, res) => {
 })
 
 router.get('/reg', (req, res) => {
-    console.log(req.cookies)
-    res.render(createPath('reg'), { title: "Registration", header: "Registration page" })
+    const decode = jwt.decode(req.cookies.token, { complete: true })
+    if (decode !== null && decode.payload.permission === 'true') {
+        console.log(decode)
+        res.redirect('/user/:id')
+    } else {
+        res.render(createPath('reg'), { title: "Registration", header: "Registration page" })
+    }
+
 })
 
 
