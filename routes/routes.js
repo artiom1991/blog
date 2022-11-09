@@ -30,7 +30,6 @@ router.get('/exit', (req, res) => {
 })
 
 
-
 router.get('/user/:id', async (req, res) => {
     let userPosts = []
     const posts = await Posts.findAll({
@@ -40,7 +39,6 @@ router.get('/user/:id', async (req, res) => {
         userPosts.push(element)
     })
     const decode = jwt.decode(req.cookies.token, { complete: true })
-
 
     if (decode !== null && decode.payload.permission === 'true') {
 
@@ -62,7 +60,6 @@ router.get('/user/:id', async (req, res) => {
                     modifiedPosts.push(element)
                 }
             })
-            console.log('modified : ', modifiedPosts)
             return res.render(createPath('user'), { title: "Main Page", header: req.params.id, posts: modifiedPosts })
         }
 
