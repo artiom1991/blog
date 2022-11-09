@@ -9,6 +9,11 @@ const sequelize = new Sequelize('blog', 'postgres', process.env.DB_PASSWORD, {
 })
 
 const User = sequelize.define('blog_user', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     username: {
         type: DataTypes.STRING,
         primaryKey: true,
@@ -30,6 +35,11 @@ const User = sequelize.define('blog_user', {
 })
 
 const Posts = sequelize.define('blog_posts', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
     username: {
         type: DataTypes.STRING,
         primaryKey: true
