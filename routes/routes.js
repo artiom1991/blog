@@ -16,8 +16,9 @@ router.use(cookieParser())
 
 router.get('/', (req, res) => {
     const decode = jwt.decode(req.cookies.token, { complete: true })
+
     if (decode !== null && decode.payload.permission === 'true') {
-        res.redirect('/user/:id')
+        res.redirect(`/user/${req.cookies.user}`)
     } else {
         res.render(createPath('index'), { title: "Main Page", header: "Hello my dear user" })
     }
@@ -28,12 +29,21 @@ router.get('/exit', (req, res) => {
     res.redirect('/')
 })
 
-router.get('/user/:id', (req, res) => {
+router.get('/user/:id', async (req, res) => {
+    let userPosts = []
+    const posts = await Posts.findAll({
+        raw: true,
+        where: { username: req.params.id }
+    }).then(element => {
+        // console.log(element)
+        userPosts.push(element)
+    })
+    console.log(userPosts)
     // db[req.params.id]
-
+    // req.cookies.user
     const decode = jwt.decode(req.cookies.token, { complete: true })
     if (decode !== null && decode.payload.permission === 'true') {
-        res.render(createPath('user'), { title: "Main Page", header: req.cookies.user })
+        res.render(createPath('user'), { title: "Main Page", header: req.params.id, posts: userPosts[0] })
     } else {
         res.redirect('/')
     }
@@ -43,10 +53,24 @@ router.get('/auth', (req, res) => {
     const decode = jwt.decode(req.cookies.token, { complete: true })
     if (decode !== null && decode.payload.permission === 'true') {
         console.log(decode)
-        res.redirect('/user/:id')
+        res.redirect(`/user/${req.cookies.user}`)
     } else {
         res.render(createPath('auth'), { title: "Autorization", header: "Autorization page" })
     }
+})
+
+router.get('/users', async (req, res) => {
+    let allUsers = []
+    const users = await User.findAll({
+        raw: true,
+    }).then(element => {
+        element.forEach(element => {
+            allUsers.push(element.username)
+            console.log(element.username)
+        })
+    })
+
+    res.render(createPath('users'), { title: "Autorization", header: "Autorization page", userlist: allUsers })
 })
 
 router.get('/reg', (req, res) => {
@@ -95,7 +119,7 @@ router.post('/auth', async (req, res) => {
         res.cookie(`token`, `${token}`)
 
         if (isPasswordCorrect === true) {
-            res.redirect('/user/:id')
+            res.redirect(`/user/${user.username}`)
         } else {
             res.redirect('/auth')
         }

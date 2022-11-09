@@ -32,8 +32,7 @@ const User = sequelize.define('blog_user', {
 const Posts = sequelize.define('blog_posts', {
     username: {
         type: DataTypes.STRING,
-        primaryKey: true,
-        unique: true
+        primaryKey: true
     },
     post: {
         type: DataTypes.STRING,

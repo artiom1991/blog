@@ -24,10 +24,20 @@
                 <hgroup class="info">
                     <h1>Добро пожаловать на личную страницу блогера.
                     </h1>
+
+                    <% posts.forEach(element=>{ %>
+                        <div class="post">
+                            <h3><b>Title: </b>
+                                <%= element.title %>
+                                    <b><a class="deletepost" href="">[x]</a></b>
+                            </h3>
+                            <h5>
+                                <%= element.post %>
+                            </h5>
+                        </div>
+                        <% })%>
                 </hgroup>
             </div>
-        </div>
-
 </body>
 
 </html>

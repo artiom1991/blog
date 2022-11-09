@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./parts/head.ejs') %>
+</head>
+
+<body>
+    <%- include('./parts/header.ejs') %>
+        <div class="container">
+            <div class="innerContent">
+                <h1 class="h1">All users</h1>
+                <% userlist.forEach(element=> {%>
+                    <h4 class="h4">
+                        <a class="personA" href="/user/<%= element %> ">
+                            <%= element %>
+                        </a>
+                    </h4>
+                    <% }) %>
+            </div>
+        </div>
+</body>
+
+</html>
