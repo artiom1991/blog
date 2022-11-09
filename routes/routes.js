@@ -29,6 +29,8 @@ router.get('/exit', (req, res) => {
     res.redirect('/')
 })
 
+
+
 router.get('/user/:id', async (req, res) => {
     let userPosts = []
     const posts = await Posts.findAll({
@@ -38,10 +40,34 @@ router.get('/user/:id', async (req, res) => {
         userPosts.push(element)
     })
     const decode = jwt.decode(req.cookies.token, { complete: true })
+
+
     if (decode !== null && decode.payload.permission === 'true') {
-        res.render(createPath('user'), { title: "Main Page", header: req.params.id, posts: userPosts[0] })
+
+        if (decode.payload.role === 'admin') {
+
+            return res.render(createPath('user'), { title: "Main Page", header: req.params.id, posts: userPosts[0] })
+
+        }
+
+        if (decode.payload.role = 'user' && req.params.id === decode.payload.username) {
+
+            return res.render(createPath('user'), { title: "Main Page", header: req.params.id, posts: userPosts[0] })
+        }
+
+        if (decode.payload.role = 'user' && req.params.id !== decode.payload.username) {
+            let modifiedPosts = []
+            userPosts[0].forEach(element => {
+                if (element.hide !== 'hide') {
+                    modifiedPosts.push(element)
+                }
+            })
+            console.log('modified : ', modifiedPosts)
+            return res.render(createPath('user'), { title: "Main Page", header: req.params.id, posts: modifiedPosts })
+        }
+
     } else {
-        res.redirect('/')
+        return res.redirect('/')
     }
 })
 
@@ -85,12 +111,37 @@ router.get('/createpost', (req, res) => {
     res.render(createPath('createpost'), { title: "Registration", header: "Registration page" })
 })
 
+router.get('/delete/post/:id', async (req, res) => {
+    let id = req.params.id
+    const decode = jwt.decode(req.cookies.token, { complete: true })
+    if (decode !== null && decode.payload.permission === 'true') {
+        const post = await Posts.findOne({
+            raw: true,
+            where: { id }
+        }).then(async (el) => {
+            await Posts.destroy({
+                raw: true,
+                where: { id }
+            })
+        })
+        res.redirect('/')
+    } else {
+        res.send('404')
+    }
+})
+
 router.post('/createpost', async (req, res) => {
+    let hide = ""
+    if (req.body.hiden !== "hide") {
+        hide = "none"
+    } else {
+        hide = "hide"
+    }
     let createPost = await Posts.create({
         username: req.cookies.user,
         post: req.body.post,
         title: req.body.title,
-        hide: "none"
+        hide: hide
     }).catch((error) => {
         console.log(error.parent.detail)
     })
@@ -125,14 +176,14 @@ router.post('/auth', async (req, res) => {
 })
 
 router.post('/reg', async (req, res) => {
-    const { username, password, email, phonenumber } = req.body
+    const { username, password, email, phonenumber, role } = req.body
     const passwordHashed = await bcrypt.hash(password, 8)
     let createUser = await User.create({
         username,
         password: passwordHashed,
         email,
         phonenumber,
-        role: "user"
+        role: role
     }).catch((error) => {
         console.log(error.parent.detail)
     })
@@ -141,6 +192,10 @@ router.post('/reg', async (req, res) => {
     } else {
         res.redirect('/reg')
     }
+})
+
+router.use((req, res) => {
+    res.render(createPath('404'), { title: "404" })
 })
 
 export default router
