@@ -23,13 +23,42 @@ ul {
     width: 100%;
     display: flex;
     justify-content: center;
+    height: 50px;
+    box-shadow: 0 3px 3px 3px;
+    z-index: 300;
 }
 
+.nav {}
 
 .btnList {
     display: flex;
-    gap: 20px;
+    height: 50px;
+
 }
+
+.btnLi {
+    margin-top: 14px;
+    font-size: 20px;
+    text-transform: uppercase;
+
+}
+
+.btnA {
+    padding: 14px;
+    transition: 0.4s ease all;
+}
+
+.btnA:hover {
+    background-color: rgb(7, 7, 7);
+    color: #fff;
+}
+
+
+
+
+
+
+
 
 .container {
     width: 100%;
@@ -39,8 +68,48 @@ ul {
 }
 
 .form {
+    margin-top: 300px;
     display: flex;
     flex-direction: column;
+    background-color: #fff;
+    height: min-content;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 3px 3px 3px 3px;
+}
+
+
+
+.form input {
+    width: 300px;
+    height: 30px;
+    background-color: rgba(80, 40, 40, 0.479);
+    color: #fff;
+}
+
+input::placeholder {
+    color: #fff;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.form>input:first-child {
+    border-radius: 10px 10px 0 0;
+
+}
+
+.form button {
+    width: 308px;
+    height: 30px;
+    border-radius: 0 0 10px 10px;
+    background-color: rgb(59, 59, 59);
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.form button:hover {
+    color: #fff;
+    background-color: rgb(97, 20, 20);
 }
 
 .button {
@@ -61,6 +130,7 @@ ul {
     background-color: rgba(228, 108, 39, 0.329);
     padding: 50px 20px 0 20px;
     padding-top: 100px;
+    z-index: 1;
 
 }
 
