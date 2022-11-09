@@ -81,8 +81,9 @@ ul {
 
 
 .form input {
-    width: 300px;
+    width: 282px;
     height: 30px;
+    padding-left: 20px;
     background-color: rgba(80, 40, 40, 0.479);
     color: #fff;
 }
