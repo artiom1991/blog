@@ -144,6 +144,57 @@ input::placeholder {
     transition: 0.6s all ease;
 }
 
+.inputArea {}
+
+.createPost {
+    margin-top: 300px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.301);
+    height: min-content;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 3px 3px 3px 3px;
+}
+
+.createPost textarea {
+    max-width: 400px;
+    height: 100px;
+    padding-left: 20px;
+    background-color: rgba(80, 40, 40, 0.479);
+    color: #fff;
+}
+
+.createPost input {
+    width: 398px;
+    height: 30px;
+    padding-left: 20px;
+    background-color: rgba(80, 40, 40, 0.479);
+    color: #fff;
+}
+
+.createPost>input:first-child {
+    border-radius: 10px 10px 0 0;
+}
+
+.createPost button {
+    width: 424px;
+    height: 30px;
+    border-radius: 0 0 10px 10px;
+    background-color: rgb(59, 59, 59);
+    color: #fff;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.createPost button:hover {
+    color: #fff;
+    background-color: rgb(97, 20, 20);
+}
+
+
+
+
 .userMenu:hover {
     background-color: rgb(78, 157, 231);
 }
