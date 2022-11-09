@@ -135,6 +135,19 @@ input::placeholder {
 
 }
 
+.userMenu {
+    border-radius: 5px;
+    margin-top: 20px;
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.356);
+    box-shadow: 3px 3px 3px 3px;
+    transition: 0.6s all ease;
+}
+
+.userMenu:hover {
+    background-color: rgb(78, 157, 231);
+}
+
 .miniNav {
     display: flex;
     justify-content: center;
@@ -142,11 +155,17 @@ input::placeholder {
     align-items: center;
 }
 
-.userBtn {
+.miniNav h4 {
+    border: rgba(255, 255, 255, 0.116) 3px solid;
+    padding: 0 30px;
+    background-color: rgba(10, 2, 2, 0.295);
+    text-align: center;
+}
 
+.userBtn {
+    width: 180px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
     text-align: center;
 }
 
@@ -154,6 +173,10 @@ input::placeholder {
     width: 100px;
     height: auto;
     margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.226);
+    padding: 20px;
+    border-radius: 50%;
+    box-shadow: 3px 3px 3px 3px;
 }
 
 .createPost {
@@ -169,10 +192,16 @@ input::placeholder {
 .info {
     margin: 100px 0 0 50px;
     text-align: center;
-    align-content: center;
-    width: calc(100% - 180px);
+}
+
+.info h1 {
+    width: 600px;
+}
+
+.postContainer {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    width: calc(100%);
 }
 
 h3 {
