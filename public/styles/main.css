@@ -146,6 +146,40 @@ input::placeholder {
 
 .inputArea {}
 
+.innerContent {
+    margin-top: 300px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.329);
+    height: min-content;
+    /* padding: 40px; */
+    border-radius: 10px;
+    box-shadow: 30px 30px 30px 30px;
+}
+
+.innerContent h1 {
+    margin: 0;
+    padding: 0;
+    padding: 10px 0;
+    background-color: rgba(0, 255, 255, 0.322);
+    border-radius: 10px 10px 0 0;
+}
+
+.innerContent a {
+    padding: 0 40px;
+}
+
+.innerContent h4:hover {
+    background-color: rgba(19, 167, 44, 0);
+}
+
+.innerContent h4 {
+    background-color: rgba(19, 167, 44, 0.651);
+}
+
+.innerContent h4:last-child {
+    border-radius: 0 0 10px 10px;
+}
+
 .createPost {
     margin-top: 300px;
     display: flex;
