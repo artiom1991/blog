@@ -29,10 +29,29 @@ const User = sequelize.define('blog_user', {
     }
 })
 
+const Posts = sequelize.define('blog_posts', {
+    username: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+        unique: true
+    },
+    post: {
+        type: DataTypes.STRING,
+        primaryKey: true
+    },
+    title: {
+        type: DataTypes.STRING,
+        primaryKey: true
+    },
+    hide: {
+        type: DataTypes.STRING
+    }
+})
+
 sequelize.sync()
     .then(() => {
         console.log('Database working')
     })
     .catch(e => console.log('error'))
 
-export { User }
+export { User, Posts }

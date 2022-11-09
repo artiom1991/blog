@@ -8,10 +8,24 @@
 <body>
     <%- include('./parts/header.ejs') %>
         <div class="container">
-            <hgroup>
-                <h1>Добро пожаловать сайт!! <%= header %>
-                </h1>
-            </hgroup>
+            <div class="containerInner">
+                <div class="userNav">
+                    <nav class="miniNav">
+                        <img class="img" src="/img/img.png" alt="">
+                        <h4>
+                            <%= header %>
+                        </h4>
+                        <ul class="userBtn">
+                            <a class="userMenu" href="/createpost">создать публикацию</a>
+                            <a class="userMenu" href="/chats">переписки</a>
+                        </ul>
+                    </nav>
+                </div>
+                <hgroup class="info">
+                    <h1>Добро пожаловать на личную страницу блогера.
+                    </h1>
+                </hgroup>
+            </div>
         </div>
 
 </body>

@@ -1,4 +1,4 @@
-import { User } from "../data/database.js"
+import { User, Posts } from "../data/database.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
@@ -29,6 +29,8 @@ router.get('/exit', (req, res) => {
 })
 
 router.get('/user/:id', (req, res) => {
+    // db[req.params.id]
+
     const decode = jwt.decode(req.cookies.token, { complete: true })
     if (decode !== null && decode.payload.permission === 'true') {
         res.render(createPath('user'), { title: "Main Page", header: req.cookies.user })
@@ -55,6 +57,24 @@ router.get('/reg', (req, res) => {
         res.render(createPath('reg'), { title: "Registration", header: "Registration page" })
     }
 
+})
+
+router.get('/createpost', (req, res) => {
+    res.render(createPath('createpost'), { title: "Registration", header: "Registration page" })
+    console.log(req.cookies)
+})
+
+router.post('/createpost', async (req, res) => {
+    console.log(req.cookies.username)
+    let createPost = await Posts.create({
+        username: req.cookies.user,
+        post: req.body.post,
+        title: req.body.title,
+        hide: "none"
+    }).catch((error) => {
+        console.log(error.parent.detail)
+    })
+    res.send(req.body)
 })
 
 router.post('/auth', async (req, res) => {

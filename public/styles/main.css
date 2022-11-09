@@ -38,10 +38,10 @@ ul {
 
 
 .container {
-    margin-top: 100px;
     width: 100%;
     display: flex;
     justify-content: center;
+    height: calc(100vh - 18px);
 }
 
 .form {
@@ -58,4 +58,60 @@ ul {
 .mainA {
     background-color: rgba(255, 255, 255, 0.363);
     text-transform: uppercase;
+}
+
+.containerInner {
+    width: 100%;
+    display: flex;
+}
+
+.userNav {
+    background-color: rgba(228, 108, 39, 0.329);
+    padding: 50px 20px 0 20px;
+    padding-top: 100px;
+
+}
+
+.miniNav {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.userBtn {
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+}
+
+.userMenu {}
+
+.img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.createPost {
+    margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.createPost textarea {
+    width: 600px;
+}
+
+.info {
+    margin: 100px 0 0 50px;
+    text-align: center;
+    align-content: center;
+}
+
+h4 {
+    margin: 0;
+    padding: 0 0 10px 0;
 }
